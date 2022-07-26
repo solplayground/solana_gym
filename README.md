@@ -3,12 +3,143 @@ OpenAI Gym Env for crypto trading based on [Jupiter aggregator](https://docs.jup
 
 This gym environment is **NOT** a simulation, it is based on real-world crypto trading on Solana blockchain.
 
+If you requires a simulated environment, please try to use [OpenAI ASX GYM](https://github.com/guidebee/asx_gym), which is a OpenAI Gym based on Australia Stock Market.
+
 So if you need to trading with your agent, you need a solana wallet (keypair) and some SOL (minimum 1 SOL is recommended).
 or you can use the provided *NoActionAgent* to get a glimpse of the gym environment. 
 
 The default Jupiter trading pair is SOL and USDC, since it's the most common trading pair on Solana.
 
 The environment can easily switch to different pair if you prefer, but that requires some knowledge of solana blockchain.
+
+# OpenAI Gym
+
+[Gym](https://www.gymlibrary.ml/) is a standard API for reinforcement learning, and a diverse collection of reference environments.
+This is a Solana Trading Environment uses OpenAI Gym interface, like Actions, Observations, etc.
+Gym implements the classic “agent-environment loop”:
+
+![Gym](https://www.gymlibrary.ml/_images/AE_loop_dark.png)
+
+# Solana Gym Actions
+
+In the Solana Gym Environments, there are 5 actions agent can perform:
+
+1. no_action = 1  # do nothing
+2. buy_sol = 2  # buy SOL with USDC
+3. buy_base = 3  # sell SOL for USDC
+4. convert_base_sol_base = 4  # Arbitrage from USDC->SOL  ,SOL->USDC ,in parallel
+5. convert_sol_base_sol = 5  # Arbitrage from SOL->USDC  , USDC->SOL  ,in parallel
+
+# Solana Gym Observations
+
+```python
+self.observation_space = spaces.Dict(
+            {
+                "sol_amount": spaces.Box(low=0,
+                                         high=LAMPORTS_PER_SOL * 10000,
+                                         shape=(1,),
+                                         dtype=np.int64),
+                "base_amount": spaces.Box(low=0,
+                                          high=BASE_PER_USDC * 100000,
+                                          shape=(1,),
+                                          dtype=np.int64),
+                "wrapped_sol_amount": spaces.Box(low=0,
+                                                 high=LAMPORTS_PER_SOL * 10000,
+                                                 shape=(1,),
+                                                 dtype=np.int64),
+                "sol_unit_price": spaces.Box(low=0,
+                                             high=BASE_PER_USDC * 100000,
+                                             shape=(1,),
+                                             dtype=np.int64),
+                "adjusted_sol_amount": spaces.Box(low=0,
+                                                  high=10000.0,
+                                                  shape=(1,),
+                                                  dtype=np.float32),
+                "timestamp": spaces.Box(low=10000000000,
+                                        high=30000000000,
+                                        shape=(1,),
+                                        dtype=np.int64),
+                "adjusted_base_amount": spaces.Box(low=0,
+                                                   high=100000.0,
+                                                   shape=(1,),
+                                                   dtype=np.float32),
+                "change_rate_base_amount": spaces.Box(low=0,
+                                                      high=100000.0,
+                                                      shape=(1,),
+                                                      dtype=np.float32),
+                "change_rate_sol_price": spaces.Box(low=0,
+                                                    high=100000.0,
+                                                    shape=(1,),
+                                                    dtype=np.float32),
+
+                "total_trades": spaces.Box(low=0,
+                                           high=1000000,
+                                           shape=(1,),
+                                           dtype=int),
+                "success_trades": spaces.Box(low=0,
+                                             high=1000000,
+                                             shape=(1,),
+                                             dtype=int),
+                "failed_trades": spaces.Box(low=0,
+                                            high=1000000,
+                                            shape=(1,),
+                                            dtype=int),
+                "exceptions": spaces.Box(low=0,
+                                         high=1000000,
+                                         shape=(1,),
+                                         dtype=int),
+
+            }
+```
+- sol_unit_price  Sol prices at give timestamp
+- sol_amount total SOL amount (native SOL + wrapped SOL)
+- wrapped_sol_amount wrapped SOL amount
+- base_amount  here base mean USDC (stable coin) amount
+- adjusted_sol_amount , the total SOL value of all tokens (SOL + USDC) ,based on sol price at current timestamp
+- adjusted_base_amount, the total USDC value of all tokens (SOL + USDC), based on sol price at current timestamp
+- change_rate_base_amount, adjusted_base_amount value change rate (in percentage since episode starts)
+- change_rate_sol_price, sol_unit_price change rate (in percentage since episode starts)
+- total_trades, how many trades since current episode starts
+- success_trades, successful trades since current episode starts
+- failed_trades, failed trades since current episode starts
+- exceptions, program exceptions counter
+
+# Solana Gym Rewards
+
+The default rewards is the changes of adjusted_base_amount (total asset value)
+
+
+# Solana Gym Done condition
+
+````python
+    def _is_done(self) -> bool:
+        done = False
+        self.done_condition_type = DoneConditionType.others
+        if self.exception_count > 100:
+            done = True
+            self.done_condition_type = DoneConditionType.too_many_exceptions
+        elif abs(self.change_rate_base_amount) > self.change_rate_limit:
+            done = True
+            self.done_condition_type = DoneConditionType.change_rate_limit
+        elif self.step_count > self.max_step_for_one_episode:
+            done = True
+            self.done_condition_type = DoneConditionType.max_step
+        elif (not self.disable_low_balance_checking) and self.current_trade \
+                and self.current_trade.adjusted_base_amount < 10:
+            done = True
+            self.done_condition_type = DoneConditionType.insufficient_fund
+
+        return done
+````
+Default done condition is total asset values +20% or -20%, or step reaches 2400 steps, or no enough fund, these values
+are configable .
+
+# OpenAI Wrappers
+
+Use OpenAI [Wrappers](https://www.gymlibrary.ml/content/wrappers/), you can change the definitions of default implementations of Actions, Rewards, Done Conditions, Observations.
+
+Wrappers are a convenient way to modify an existing environment without having to alter the underlying code directly. Using wrappers will allow you to avoid a lot of boilerplate code and make your environment more modular. Wrappers can also be chained to combine their effects.
+
 
 
 

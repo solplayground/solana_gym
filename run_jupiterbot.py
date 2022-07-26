@@ -5,7 +5,8 @@ import gym
 from dotenv import dotenv_values
 from solana.keypair import Keypair
 
-from agents.SimpleArbitrageAgent import SimpleArbitrageAgent
+from agents.NoActionAgent import NoActionAgent
+# from agents.SimpleArbitrageAgent import SimpleArbitrageAgent
 from jupiter_gym.envs import SOLANA_RPC_URL
 
 config = dotenv_values(".env")
@@ -32,8 +33,8 @@ def main():
                    solana_rpc_url=solana_rpc_url
                    )
 
-    agent = SimpleArbitrageAgent(env, convert_sol_amount=min_init_sol_mint, convert_base_amount=min_init_base_mint + 1)
-    # agent = NoActionAgent(env)
+    # agent = SimpleArbitrageAgent(env, convert_sol_amount=min_init_sol_mint, convert_base_amount=min_init_base_mint + 1)
+    agent = NoActionAgent(env)
     # agent = BuyAndHoldAgent(env, convert_sol_amount=min_init_sol_mint)
     env.reset()
     for _ in range(2400 * 100):
