@@ -265,12 +265,11 @@ You can implement your own smarter agent ,hope you can gain some profit with you
 ## data
  Store trading history in the data directory.
 
-# Some cost
+# Some costs
 
 **NOTE:** I don't charge any fee and there's no hidden fee from me. But there's some cost you need to know.
 
 1. Solana account cost, Solana blockchain charges storage fee. A token account is a storage, currently each account cost
-
  0.00203928 SOL (about $0.07343447 at the moment). [Account](https://docs.solana.com/developing/programming-model/accounts)
 
 2. Jupiter Transaction fee .
