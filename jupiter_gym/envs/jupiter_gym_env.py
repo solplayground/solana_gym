@@ -494,8 +494,6 @@ class JupiterGymEnv(Env):
             options: Optional[dict] = None,
     ) -> Union[ObsType, Tuple[ObsType, dict]]:
         self._close_fig()
-
-        self._jupiter = JupiterAggregator(keypair=self._keypair, client=self._client, options=None)
         self._jupiter = JupiterAggregator(keypair=self._keypair, client=self._client, options=self._option)
         self._historical_data: List[AccountBalanceInfo] = []
         self._async_wrapper(self._set_init_balance())
