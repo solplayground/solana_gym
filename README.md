@@ -134,6 +134,14 @@ The default rewards is the changes of adjusted_base_amount (total asset value)
 Default done condition is total asset values +20% or -20%, or step reaches 2400 steps, or no enough fund, these values
 are configable .
 
+# Solana Gym Render Modes
+
+render for an environment actually is optional. Here ASX Gym provides 3 render modes:
+
+````python
+ metadata = {'render.modes': ['human', 'ansi', 'rgb_array']}
+````
+
 # OpenAI Wrappers
 
 Use OpenAI [Wrappers](https://www.gymlibrary.ml/content/wrappers/), you can change the definitions of default implementations of Actions, Rewards, Done Conditions, Observations.
@@ -235,8 +243,29 @@ if __name__ == "__main__":
 
 
 ```
+<img src="https://github.com/solplayground/solana_gym/blob/main/docs/solana_gym.gif?raw=true" alt="Solana Gym" width="1000"/>
 
-## Some cost
+# Sample Agents
+
+The agent directory provides a couple of simples agents for your reference. 
+
+<img src="https://github.com/solplayground/solana_gym/blob/main/docs/bots.png?raw=true" alt="Solana Gym" width="1000"/>
+
+You can implement your own smarter agent ,hope you can gain some profit with your trading bots.
+
+
+
+# Episode output
+
+ Solana Gym creates some data and images each step Agent interacts with the Environment. 
+
+## images
+ when in 'human' or 'rgb_array' render mode, Asx Gym save all images in this directory, you can use these images to create videos.
+
+## data
+ Store trading history in the data directory.
+
+# Some cost
 
 **NOTE:** I don't charge any fee and there's no hidden fee from me. But there's some cost you need to know.
 
