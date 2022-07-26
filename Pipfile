@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+aiohttp = "*"
+mplfinance = "*"
+opencv-python = "*"
+matplotlib = "*"
+pandas = "*"
+pyglet = "*"
+ipython = "*"
+numpy = "*"
+gym = "===0.24.0"
+base58 = "*"
+solana = "*"
+python-dotenv = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
