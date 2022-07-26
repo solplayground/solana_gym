@@ -18,7 +18,7 @@ The environment can easily switch to different pair if you prefer, but that requ
 This is a Solana Trading Environment uses OpenAI Gym interface, like Actions, Observations, etc.
 Gym implements the classic “agent-environment loop”:
 
-![Gym](https://www.gymlibrary.ml/_images/AE_loop_dark.png)
+![Gym](https://www.gymlibrary.ml/_images/AE_loop.png)
 
 # Solana Gym Actions
 
