@@ -165,6 +165,30 @@ Install the [OpenAI gym](https://gym.openai.com/docs/).
 ```
 
 Then install this package via
+The code as tested with Python 3.10. so better use 3.10+ or the latest python version. and uses pipenv to manage python packages.
+
+````text
+[packages]
+aiohttp = "*"
+mplfinance = "*"
+opencv-python = "*"
+matplotlib = "*"
+pandas = "*"
+pyglet = "*"
+ipython = "*"
+numpy = "*"
+gym = "===0.24.0"
+base58 = "*"
+solana = "*"
+python-dotenv = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
+
+````
+
 
 ```
 pip install -e .
