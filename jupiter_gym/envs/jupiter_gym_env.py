@@ -161,6 +161,7 @@ class JupiterGymEnv(Env):
         self.global_step_count = 0
         self.step_count = 0
         self.exception_count = 0
+        self.outlier_count = 0
         self.episode = 0
         self.observation = None
         self.action = None
@@ -241,6 +242,9 @@ class JupiterGymEnv(Env):
         if self.exception_count > 100:
             done = True
             self.done_condition_type = DoneConditionType.too_many_exceptions
+        if self.outlier_count > 100:
+            done = True
+            self.done_condition_type = DoneConditionType.too_many_outliers
         elif abs(self.change_rate_base_amount) > self.change_rate_limit:
             done = True
             self.done_condition_type = DoneConditionType.change_rate_limit
@@ -272,7 +276,7 @@ class JupiterGymEnv(Env):
                 last_10_trades: List[AccountBalanceInfo] = self._historical_data[-10:]
                 last_10_base_amount = [x.adjusted_base_amount for x in last_10_trades]
                 # try to remove outlier
-                std = max(statistics.stdev(last_10_base_amount), 0.1)
+                std = max(statistics.stdev(last_10_base_amount), 0.2)
                 avg: float = sum(last_10_base_amount) / len(last_10_trades)
 
                 left = avg - 5 * std
@@ -282,6 +286,7 @@ class JupiterGymEnv(Env):
                     self._historical_data.append(balances)
                 else:
                     print(colorize(f'Outlier:{balances.adjusted_base_amount} ,last 10 average :{avg}', color='yellow'))
+                    self.outlier_count += 1
 
     def _render_ansi(self):
         try:
@@ -382,7 +387,8 @@ class JupiterGymEnv(Env):
             statistics_data = f'Total trades={self._jupiter.total_trade},' \
                               f'success trades={self._jupiter.success_trade},' \
                               f'failed trades={self._jupiter.failed_trade},' \
-                              f'tps={self.recent_performance}'
+                              f'tps={self.recent_performance},E={self.exception_count},O={self.outlier_count}'
+
             asset_value = f'Total Value={last_trade["Close"]} USDC {change_rate_base_amount}%,' \
                           f'SOL Price={last_unit_trade["Close"]} USDC {change_rate_sol_price}%'
             display_title = f'\n\nOpenAI Jupiter Gym Env Episode:{self.episode} Step:{self.step_count}' \

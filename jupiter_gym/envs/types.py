@@ -17,7 +17,8 @@ class DoneConditionType(IntEnum):
     max_step = 2  # max steps reached for one episode
     insufficient_fund = 3  # no enough fund left
     too_many_exceptions = 4  # too many errors
-    others = 5
+    too_many_outliers = 5  # too many errors
+    others = 6
 
 
 TransactionId = NewType('TransactionId', str)
