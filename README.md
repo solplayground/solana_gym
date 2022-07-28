@@ -319,7 +319,7 @@ You can implement your own smarter agent ,hope you can gain some profit with you
 
 3. Solana Transaction fee.
 
-   For each transaction (failed or success), solana charges 5000 lamport (0.000005SOL),almost nothing. but if you do millions of thousands,there will some cost need to be considered.
+   For each transaction (failed or success), solana charges 5000 lamport (0.000005SOL),almost nothing. but if you do millions of thousands of trades,there will some cost need to be considered.
 
 # DISCLAIMER
   
