@@ -324,9 +324,7 @@ You can implement your own smarter agent ,hope you can gain some profit with you
 # Transaction speed
  
   The Solana White Paper states that the theoretical limit for a 1-gigabit (equal to 125 MB per second) network is 710k tps, but at the moment, the real transaction is around 3000tps. less than
-
 1% of 710k. And for each "write" transaction, it may take over 10 seconds to commit, and the failure rate is pretty high ( 20%+). The most challenge part is the "inconsistency" among solana nodes,
-
 since translations requires some time to propagate to the nodes. **so the responses returned from the RPC node may have conflict results with the same request.** 
 
 
