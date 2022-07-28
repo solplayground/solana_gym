@@ -1,16 +1,18 @@
 # OpenAI Solana Jupiter Trading Gym Env
+
 OpenAI Gym Env for crypto trading based on [Jupiter aggregator](https://docs.jup.ag/)
 
-This gym environment is **NOT** a simulation, it is based on real-world crypto trading on Solana blockchain.
+This gym environment is **NOT** a simulation, it is based on real-world crypto trading on the Solana blockchain.
 
-If you requires a simulated environment, please try to use [OpenAI ASX GYM](https://github.com/guidebee/asx_gym), which is a OpenAI Gym based on Australia Stock Market.
+If you require a simulated environment, please try to use [OpenAI ASX GYM](https://github.com/guidebee/asx_gym), which is an OpenAI Gym based on the Australian Stock Market.
 
-So if you need to trading with your agent, you need a solana wallet (keypair) and some SOL (minimum 1 SOL is recommended).
-or you can use the provided *NoActionAgent* to get a glimpse of the gym environment. 
+So if you need to trade with your agent, you need a Solana wallet (keypair) and some SOL (a minimum of 1 SOL is recommended). or you can use the provided *NoActionAgent* to get a glimpse of the gym environment.
 
-The default Jupiter trading pair is SOL and USDC, since it's the most common trading pair on Solana.
+The default Jupiter trading pair is SOL and USDC since it's the most common trading pair on Solana.
 
-The environment can easily switch to different pair if you prefer, but that requires some knowledge of solana blockchain.
+The environment can easily switch to different pair if you prefer, but that requires some knowledge of the Solana blockchain.
+
+
 
 # OpenAI Gym
 
