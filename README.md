@@ -321,6 +321,15 @@ You can implement your own smarter agent ,hope you can gain some profit with you
 
    For each transaction (failed or success), solana charges 5000 lamport (0.000005SOL),almost nothing. but if you do millions of thousands of trades,there will some cost need to be considered.
 
+# Transaction speed
+ 
+  The Solana White Paper states that the theoretical limit for a 1-gigabit (equal to 125 MB per second) network is 710k tps, but at the moment, the real transaction is around 3000tps. less than
+
+1% of 710k. And for each "write" transaction, it may take over 10 seconds to commit, and the failure rate is pretty high ( 20%+). The most challenge part is the "inconsistency" among solana nodes,
+
+since translations requires some time to propagate to the nodes. **so the responses returned from the RPC node may have conflict results with the same request.** 
+
+
 # DISCLAIMER
   
   This is based on real-world trading platform, it allows you to test your trading bot, **it doesn't promise profit and might incur losses.Use it at your own risk.**
