@@ -23,12 +23,25 @@ Gym implements the classic “agent-environment loop”:
 # Solana Gym Actions
 
 In the Solana Gym Environments, there are 5 actions agent can perform:
+````python
+self.action_space = spaces.Dict(
+            {
+                "operation": spaces.Discrete(5, start=1),
+                "amount": spaces.Box(low=np.float32(0),
+                                     high=np.float32(MAX_AMOUNT_VALUE),
+                                     shape=(1,),
+                                     dtype=np.float32),
+            }
+        )
+````
 
 1. no_action = 1  # do nothing
 2. buy_sol = 2  # buy SOL with USDC
 3. buy_base = 3  # sell SOL for USDC
 4. convert_base_sol_base = 4  # Arbitrage from USDC->SOL  ,SOL->USDC ,in parallel
 5. convert_sol_base_sol = 5  # Arbitrage from SOL->USDC  , USDC->SOL  ,in parallel
+
+amount: specify the amount of SOLs or USDC need to trade.  for USDC, its unit is dollar, for SOL it's SOL amount.
 
 # Solana Gym Observations
 
